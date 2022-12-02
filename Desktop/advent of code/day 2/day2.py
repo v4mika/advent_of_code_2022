@@ -1,33 +1,34 @@
-player_1_converter = ord('A') - 1
-player_2_converter = ord('X') - 1
+opponent_converter = ord('A') - 1
 
-win = 6
-draw = 3
-lose = 0
+win = 'Z'
+draw = 'Y'
+lose = 'X' 
 
 rock = 1
 paper = 2
 scissors = 3
 
-def play_round(player_1, player_2):
-    play_1 = ord(player_1) - player_1_converter
-    play_2 = ord(player_2) - player_2_converter
+def play_round(opponent, outcome):
+    op = ord(opponent) - opponent_converter
     
-    def calculate_score():
-        if play_1 == play_2:
-            return draw
-    
-        if ((play_2 == rock and play_1 == scissors) 
-            or (play_2 == paper and play_1 == rock) 
-            or (play_2 == scissors and play_1 == paper)):
-            return win
-    
-        return lose
-    
-    return play_2 + calculate_score()
+    win_score = 6
+    draw_score = 3
+    lose_score = 0
+        
+    if outcome == draw:
+        return op + draw_score
+        
+    if outcome == win:
+        if op == rock: return paper + win_score
+        if op == paper: return scissors + win_score
+        if op == scissors: return rock + win_score
+        
+    if outcome == lose:
+        if op == rock: return scissors + lose_score
+        if op == paper: return rock + lose_score
+        if op == scissors: return paper + lose_score
 
 total_score = 0
-
 with open("input.txt", "r") as plays:
     for play in plays:
         if play.strip():
